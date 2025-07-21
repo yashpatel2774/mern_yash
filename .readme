@@ -1,0 +1,2 @@
+/// MONGODB_URI=mongodb+srv://mernAdmin:mernAdmin@mycluster.xfwqucu.mongodb.net/mern_admin?retryWrites=true&w=majority&appName=MyCluster
+/// JWT_SECRET=mernAdminSecret
