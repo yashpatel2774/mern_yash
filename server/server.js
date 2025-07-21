@@ -1,15 +1,19 @@
 require('dotenv').config();
 const express = require("express");
 const app = express();
-const router = require('./router/auth-router');
+const authRoute = require('./router/auth-router.js');
+const contactRoute = require('./router/contact-router.js');
+const errorMiddleware = require('./middlewares/error-middleware.js');
 const connectDB = require('./utils/db.js');
 
 app.use(express.json()); // Middleware to parse JSON bodies
 
 // app.use('/', require('./router/auth-router'));   THE FIRST WAY
 
-app.use('/api/auth/', router); // THE SECOND WAY in this we need to import it 
+app.use('/api/auth/', authRoute);
+app.use('/api/form/', contactRoute);
 
+app.use(errorMiddleware); 
 const port = 3000;
 
 connectDB().then(() => {

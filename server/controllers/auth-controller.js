@@ -53,8 +53,47 @@ const register = async (req, res) => {
         res.status(201).json({msg: "Registration Successfully..", token});
 
     } catch (error) {
-        console.log(error);
+        // res.status(500).json({ error: "Internal Server Error" });
+
+        next(error);
     }
 }
 
-module.exports = { home, register };
+
+
+//// Login Page Logic
+
+const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        const userExists = await user.findOne({ email });
+
+        if (!userExists) {
+            return res.status(400).json({ error: "Invalid Credentials" });
+        }
+
+        const isPasswordMatch = await bcrypt.compare(password, userExists.password);
+
+        if (!isPasswordMatch) {
+            return res.status(400).json({ error: "Invalid Email or Password" });
+        }
+
+        const token = jwt.sign({
+            id: userExists._id.toString(),
+            email: userExists.email,
+            isAdmin: userExists.isAdmin,
+        }, process.env.JWT_SECRET, {
+            expiresIn: '30d',
+        });
+
+        res.status(200).json({ msg: "Login Successfully..", token, user: userExists });
+
+    } catch (error) {
+        console.error("Login error:", error); // helpful for debugging
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
+
+
+module.exports = { home, register, login };
