@@ -6,7 +6,7 @@ const Home = () => {
     <>
       <main className="min-h-screen flex items-center justify-center flex-col mt-4">
         <section className="w-full max-w-6xl overflow-hidden grid grid-cols-1 md:grid-cols-2 mt-7">
-          <div>
+          <div className='flex flex-col justify-center'>
             <p className='mb-2'>We are the Best IT Company</p>
             <div className="flex flex-col text-3xl font-bold text-[#E7E7E7]">
               <h1>WELCOME TO YASH</h1>
@@ -25,11 +25,11 @@ const Home = () => {
               <Link to='/service'><button className='p-1 m-2 border px-4 border-[#646cff] rounded-xl hover:cursor-pointer transition duration-300 hover:scale-105 hover:bg-[#646cff] hover:text-white'> Learn More </button></Link>
             </div>
             
-          </div>
+          </div> 
 
 
-          <div>
-            <img src="https://media.istockphoto.com/id/2151904502/photo/closeup-young-man-software-developers-using-computer-to-write-code-application-program-for-ai.webp?a=1&b=1&s=612x612&w=0&k=20&c=A7XEESVl47DOthvfuYqYhUGp7iRf8FmPjR8cdh4HeIQ=" alt="Home page side image" />
+          <div className='flex items-center justify-center'>
+            <img className='max-w-[400px] max-h-[400px]' src="/images/home.png" alt="Home page side image" />
           </div>
         </section>
 
@@ -66,12 +66,12 @@ const Home = () => {
         {/* Last section */}
 
 
-        <section className="w-full max-w-6xl overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-x-10 mt-12">
-         <div>
-          <img src="https://media.istockphoto.com/id/2205982417/photo/web-ui-ux-design-web-development-concept-a-web-developer-works-on-a-website-surrounded-by.jpg?s=2048x2048&w=is&k=20&c=Va6LBWp6plPdsebmEi7gxFPrDvMeXdGiUhZnvAuHlP8=" alt="Something" />
+        <section className="w-full max-w-6xl overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-x-10 mt-12 mb-12">
+         <div className='flex items-center justify-center'>
+          <img className='max-w-[400px] max-h-[400px]' src="/images/design.png" alt="Something" />
          </div>
 
-          <div className='mt-6'>
+          <div className='flex flex-col justify-center'>
             <p className='mb-1'>We are here to help you</p>
             <div className="flex flex-col text-3xl font-bold text-[#E7E7E7]">
               <h1>Get Started Today</h1>

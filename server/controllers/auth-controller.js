@@ -18,14 +18,12 @@ const home = async (req, res) => {
 
 const register = async (req, res) => {
     try {
-        // console.log(req.body);
+        console.log("📥 Incoming data:", req.body);
+
         const { username, email, phone, password } = req.body;
-        // if (!username || !email || !phone || !password) {
-        //     return res.status(400).json({ error: "All fields are required" });
-        // }
-        // res.status(200).json(req.body);
 
         const userExists = await user.findOne({ email });
+        console.log("👤 Existing user:", userExists);
 
         if (userExists) {
             return res.status(400).json({ error: "User already exists with email" });
@@ -33,7 +31,7 @@ const register = async (req, res) => {
 
         const saltRound = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, saltRound);
-        
+        console.log("🔐 Hashed password:", hashedPassword);
 
         const userCreated = await user.create({
             username,
@@ -42,22 +40,36 @@ const register = async (req, res) => {
             password: hashedPassword,
         });
 
-        const token = jwt.sign({
-            id: userCreated._id.toString(),
-            email: userCreated.email,
-            isAdmin: userCreated.isAdmin,
-        }, process.env.JWT_SECRET, {
-            expiresIn: '30d',
-        });
+        console.log("✅ User created:", userCreated);
 
-        res.status(201).json({msg: "Registration Successfully..", token});
+        console.log("🔑 JWT_SECRET:", process.env.JWT_SECRET);
+        if (!process.env.JWT_SECRET) {
+            throw new Error("JWT_SECRET is missing in .env");
+        }
+
+        const token = jwt.sign(
+            {
+                id: userCreated._id.toString(),
+                email: userCreated.email,
+                isAdmin: userCreated.isAdmin,
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "30d",
+            }
+        );
+
+        console.log("🪙 Token created:", token);
+
+        res.status(201).json({ msg: "Registration Successfully..", token , user: userExists});
 
     } catch (error) {
-        // res.status(500).json({ error: "Internal Server Error" });
-
-        next(error);
+        console.error("❌ Registration error:", error);
+        res.status(500).json({ error: "Internal Server Error" });
     }
-}
+};
+
+
 
 
 
@@ -95,5 +107,17 @@ const login = async (req, res) => {
     }
 }
 
+    //   User data - USER LOGIC
 
-module.exports = { home, register, login };
+        const getUser = async (req, res) => {
+            try {
+                const userData = req.user;
+                console.log(userData)
+                return res.status(200).json({ userData })
+            } catch (error) {
+                console.log(`error from the user route ${error}`);
+            }
+        };
+
+
+module.exports = { home, register, login, getUser };

@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { email, set } from 'zod'
+// import { email, set } from 'zod'
+import {useNavigate} from 'react-router-dom'
+import { useAuth } from '../store/auth'
 
 const Register = () => {
 
@@ -9,6 +11,10 @@ const Register = () => {
     phone: '',
     password: ''
   })
+
+  const navigate = useNavigate();
+
+  const {storeTokenInLocalStorage} = useAuth();
 
   const handleInput = (e) => {
     const { name, value } = e.target
@@ -21,12 +27,39 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     console.log(user);
-    setUser({
+
+    try {
+
+    const response = await fetch('http://localhost:3000/api/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body:JSON.stringify(user),
+    });
+
+    if (response.ok) {
+      const res_data = await response.json();
+      console.log("res_date", res_data);
+
+      storeTokenInLocalStorage(res_data.token);
+         setUser({
       username: '',
       email: '',
       phone: '',
       password: ''
-    })
+    });
+    alert("Rester Successfully, Now Do login..")
+    console.log(response);
+
+    navigate('/login');
+    }
+  }
+  catch (error) {
+     alert("Invalid credentials...")
+    console.log("register", error)
+  }
+   
   }
 
   return (
@@ -35,14 +68,14 @@ const Register = () => {
         {/* Left Side - Image */}
         <div>
           <img
-            className="w-full h-full object-cover"
-            src="/images/register.jpg"
+            className="max-w-[500px] max-h-[500px] object-cover"
+            src="/images/register.png"
             alt="register"
           />
         </div>
 
         {/* Right Side - Form */}
-        <div className="p-8 flex flex-col justify-center">
+        <div className="p-8 flex flex-col justify-center mt-9">
           <h2 className="text-2xl font-bold mb-4 text-[#646cff]">Registration form</h2>
           <br />
 
@@ -68,7 +101,7 @@ const Register = () => {
             <div className='flex flex-col gap-1'>
             <label htmlFor="password">Password</label>
             <input className='bg-gray-600 border-black rounded' type="password" name='password' value={user.password} 
-            placeholder='Enter the password' id='password' required  minLength={3}  maxLength={6} onChange={handleInput}/>
+            placeholder='Enter the password' id='password' required  minLength={3}  maxLength={10} onChange={handleInput}/>
             </div>
 
             <div className='flex flex-col gap-1'>

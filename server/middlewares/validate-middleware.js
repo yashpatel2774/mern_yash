@@ -1,22 +1,31 @@
+const { ZodError } = require("zod");
+
 const validate = (schema) => async (req, res, next) => {
   try {
     const parsedBody = await schema.parseAsync(req.body);
     req.body = parsedBody;
     next();
   } catch (err) {
+    console.error("💥 Full Error from Zod or Middleware:", err);
+
     const status = 422;
     const message = "Fill the input correctly";
-    const extraDetails = err.errors[0].message;
 
-    const error = {
-        status,
-        message,
-        extraDetails
+    // If it's a Zod validation error, pull the message
+    let extraDetails = "Validation failed";
+    if (err instanceof ZodError) {
+      extraDetails = err.errors?.[0]?.message || extraDetails;
+    } else if (err.message) {
+      extraDetails = err.message;
     }
 
-    console.log(error);
-    // res.status(400).json({ msg: message });
-    next(error );
+    const error = {
+      status,
+      message,
+      extraDetails,
+    };
+
+    next(error);
   }
 };
 
