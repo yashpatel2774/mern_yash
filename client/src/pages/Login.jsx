@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../store/auth';
+import { toast } from 'react-toastify'
 
 const Login = () => {
 
@@ -45,12 +46,12 @@ const Login = () => {
             email: '',
             password: ''
           });
-          alert("Login successfully")
+          toast("Login successfully")
           console.log(response);
           navigate('/');
         }
         else {
-          alert("Invalid Credentials..")
+          toast.error("Invalid Credentials")
           console.log("Invalid credentials..")
         }
     }

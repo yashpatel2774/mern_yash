@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 // import { email, set } from 'zod'
 import {useNavigate} from 'react-router-dom'
 import { useAuth } from '../store/auth'
+import { toast } from 'react-toastify'
 
 const Register = () => {
 
@@ -38,10 +39,10 @@ const Register = () => {
       body:JSON.stringify(user),
     });
 
-    if (response.ok) {
-      const res_data = await response.json();
-      console.log("res_date", res_data);
+    const res_data = await response.json();
+    console.log("res_date", res_data.message);
 
+    if (response.ok) {
       storeTokenInLocalStorage(res_data.token);
          setUser({
       username: '',
@@ -49,14 +50,14 @@ const Register = () => {
       phone: '',
       password: ''
     });
-    alert("Rester Successfully, Now Do login..")
-    console.log(response);
-
-    navigate('/login');
+    toast.success("Registartion successfully..")
+    navigate('/');
+    } else {
+      toast.error(res_data.extraDetails);
     }
   }
   catch (error) {
-     alert("Invalid credentials...")
+     toast.error("Invalid credentials...")
     console.log("register", error)
   }
    

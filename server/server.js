@@ -4,6 +4,7 @@ const cors = require("cors")
 const app = express();
 const authRoute = require('./router/auth-router.js');
 const contactRoute = require('./router/contact-router.js');
+const serviceRoute = require('./router/service-route.js')
 const errorMiddleware = require('./middlewares/error-middleware.js');
 const connectDB = require('./utils/db.js');
 
@@ -22,6 +23,7 @@ app.use(express.json()); // Middleware to parse JSON bodies
 
 app.use('/api/auth/', authRoute);
 app.use('/api/form/', contactRoute);
+app.use('/api/data/', serviceRoute)
 
 app.use(errorMiddleware); 
 const port = 3000;
