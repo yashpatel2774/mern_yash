@@ -81,7 +81,7 @@ if (userData && user) {
         <div className="flex flex-col gap-1 mt-1">
           <label htmlFor="username">Username</label>
           <input
-            className="bg-[#3D3D3D] border-black rounded mt-1"
+            className="bg-[#3D3D3D] border-black rounded mt-1 px-1 py-1"
             type="text"
             name="username"
             value={contact.username}
@@ -95,7 +95,7 @@ if (userData && user) {
         <div className="flex flex-col gap-1 mb-2">
           <label htmlFor="email">Email</label>
           <input
-            className="bg-[#3D3D3D] border-black rounded mt-1"
+            className="bg-[#3D3D3D] border-black rounded mt-1 px-1 py-1"
             type="email"
             name="email"
             value={contact.email}
@@ -109,7 +109,7 @@ if (userData && user) {
         <div className="flex flex-col gap-1">
           <label htmlFor="message">Message</label>
           <textarea
-            className="bg-[#3D3D3D] border-black rounded min-h-[100px] mt-1"
+            className="bg-[#3D3D3D] border-black rounded min-h-[100px] mt-1 px-1 py-1"
             name="message"
             value={contact.message}
             id="message"
