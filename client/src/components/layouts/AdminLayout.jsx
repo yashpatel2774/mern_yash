@@ -1,9 +1,22 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Navigate, Outlet } from 'react-router-dom';
 import { FaUser, FaHome } from 'react-icons/fa';
 import { GrContact } from 'react-icons/gr';
+import { useAuth } from '../../store/auth'
 
 const AdminLayout = () => {
+
+  const { user, isLoading } = useAuth();
+  console.log("Admin page", user);
+
+  if (isLoading) {
+    return <div className="flex justify-center items-center h-screen">Loading...</div>;
+  }
+
+  if (!user.isAdmin) {
+    return <Navigate to="/" />;
+  }
+
   return (
     <div className="min-h-screen bg-[#111111] flex items-center justify-center p-4">
   <div className="border-1 border-[#4162FF] rounded-xl overflow-hidden w-full max-w-7xl">

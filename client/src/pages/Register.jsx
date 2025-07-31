@@ -96,7 +96,7 @@ const Register = () => {
             <div className='flex flex-col gap-1'>
             <label htmlFor="phone">Phone</label>
             <input className='bg-gray-600 border-black rounded' type="number" name='phone' value={user.phone}
-             placeholder='Enter the phone' id='phone' required autoComplete='off' onChange={handleInput}/>
+             placeholder='Enter the phone' id='phone' minLength={10}  maxLength={10} required autoComplete='off' onChange={handleInput}/>
             </div>
 
             <div className='flex flex-col gap-1'>

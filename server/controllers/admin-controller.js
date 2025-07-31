@@ -59,4 +59,17 @@ const updateUser = async (req, res, next) => {
     }
 }
 
-module.exports = { getAllUsers, getAllContacts, deleteUser, updateUser };
+const deleteContact = async (req, res, next) => {
+    const contactId = req.params.id;
+    try {
+        const deletedContact = await contact.findByIdAndDelete(contactId);
+        if (!deletedContact) {
+            return res.status(404).json({ message: "Contact not found" });
+        }
+        return res.status(200).json({ message: "Contact deleted successfully" });
+    } catch (error) {
+        next(error);
+    }
+}
+
+module.exports = { getAllUsers, getAllContacts, deleteUser, updateUser, deleteContact };
